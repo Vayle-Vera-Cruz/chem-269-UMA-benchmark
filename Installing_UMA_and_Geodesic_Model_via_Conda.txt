@@ -1,0 +1,95 @@
+Installing Miniconda on the Cluster
+Step 1: Log onto Angstrom Cluster
+Step 2: Download miniconda in your home directory in Angstrom
+Enter into Command Line: 
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+Step 3: Install miniconda into your home directory
+Enter into Command Line:
+bash ~/Miniconda3-latest-Linux-x86_64.sh
+Follow instructions provided by the installation
+Step 4: Reinitialize your bashrc
+Enter into the Command Line:
+source ~/.bashrc
+You should now see “(base)” in front of your command line.
+If so, you have successfully installed miniconda.
+Making a Conda Environment for your Fairchem Calculations
+Step 1: 
+Enter into Command Line:
+conda create --name “Your_Name_for_Environment” python=3.10
+Don’t actually put the quotes
+You will be prompted to accept the terms of service, Type:
+Accept 
+Then hit enter
+Then you will be prompted with “y/n”, type:
+y
+Then hit enter
+Step 2: Double check your conda environment was installed by typing:
+conda env list
+You should see something like this:
+# conda environments:
+#
+# *  -> active
+# + -> frozen
+base                 *   /home/dveracruz1476@id.sdsu.edu/miniconda3
+UMA_env                  /home/dveracruz1476@id.sdsu.edu/miniconda3/envs/UMA_env
+Where “UMA_env” is the environment I made for example
+Activate your conda environment
+You must do this step anytime you plan to use the fairchem-core calculator! This is because we will have installed the correct python dependencies into this conda environment only.
+Step 1: Activating your conda environment
+Type into the command line:
+conda activate “Name_of_your_conda_environment”
+Don’t actually put the quotes
+
+When you have done this you will see “(Name_of_your_conda_environment)” in the front of your command line.
+Please note that if you are not going to do anymore calculations with these dependencies, you must type:
+	conda deactivate
+This will deactivate your conda environment and allow you to conduct your regular calculations and what not on Angstrom.
+Always keep in mind what conda environment you are in. If you don’t want to use the UMA environment, you should see “(base)” in front of your command line.
+Install Fairchem-core and Other Packages
+You only need to do this once to install your python dependencies properly. Afterwards, your environment will readily have these packages installed.
+Step 1: Install 
+Type into the command line:
+pip install fairchem-core
+You will see a lot of installations happen, don’t worry.
+Once you’ve done the above step, your Environment is done being set up, however you need to sign into Hugging Face on the cluster in order to run any calculations.
+
+**It seems as though once you’ve logged on with a user token, that device will always be logged into Hugging Face**  (This is because the token for each user is saved under ~/.cache/huggingface/token after you type it for the first time.)
+Log into Hugging Face client on the Cluster with your Access Token
+You must sign in with your Access Token in order to have access to the UMA calculator in ASE
+
+**Make sure your conda environment is active before continuing**
+
+Step 1: Check that huggingface_hub is installed
+Type into the command line:
+pip show huggingface_hub
+You should get something like this:
+Name: huggingface_hub
+Version: 1.1.7
+Summary: Client library to download and publish models, datasets and other repos on the huggingface.co hub
+Home-page: https://github.com/huggingface/huggingface_hub
+Author: Hugging Face, Inc.
+Author-email: julien@huggingface.co
+License: Apache
+Location: /home/dveracruz1476@id.sdsu.edu/miniconda3/envs/UMA_env/lib/python3.10/site-packages
+Requires: filelock, fsspec, hf-xet, httpx, packaging, pyyaml, shellingham, tqdm, typer-slim, typing-extensions
+Required-by: fairchem-core
+
+Step 2: Reinstall with a forced upgrade
+Type into the command line:
+python3 -m pip install --upgrade huggingface_hub
+
+Step 3: Using your hugging face token
+python3 -c "from huggingface_hub import login; login(token='YOUR_TOKEN_HERE')"
+Replace YOUR_TOKEN_HERE with the hugging face token string that you made earlier
+Keep the ‘ ‘ marks around YOUR_TOKEN_HERE
+This should log you in and allow you to perform your first calculations with the UMA potential
+
+Installing MLP Geodesic
+If you are interested in using the MLP Geodesic model to find a transition state guess, follow these steps
+
+Make a new conda environment like we did previously. Note: This turns out to be necessary as the UMA_env environment we created for UMA calculations has a conflict with mace-torch (related to the version of the e3nn package)
+Activate the conda environment
+In the command line, run the following commands
+pip install fairchem-core
+pip install mace-torch
+
