@@ -1,0 +1,27 @@
+Scientific Problem / Question
+	I want to explore the accuracy of Meta’s Universal Model of Atoms (UMA), which is a foundational machine learned interatomic potential (MLIAP). This model is trained on over 100 billion Density Functional Theory (DFT) data points at the wB97M-V/def2-TZVPD functional and basis set, which is extremely robust. I want to see how accurate the model is in calculating Gibbs free energy of small molecules, as well as see how well it can predict transition state barrier energies. I will compare this to DFT calculations performed in ORCA as well as experimental data.
+
+Why I Chose This Problem
+	I was inspired by a friend of my PI, Dr. Daniel Levine, who works at Meta’s Fair Chemistry team. He took part in creating the datasets that the UMA model used and helped design the UMA architecture known as eSEN. The model had very high accuracy and was very affordable to run, and I wanted to see for myself how accurate it is compared to my DFT calculations. If this model is as great as he claimed, I could start integrating it into my workflow as a computational chemist.
+
+Exact Dataset(s)
+Dataset name: Universal Model of Atoms
+Source link: https://github.com/facebookresearch/fairchem?tab=readme-ov-file#multi-gpu-inference-and-lammps
+Number of samples / structures / molecules: This dataset does not have any samples, it is a force field parameter
+Key fields used: n/a
+Why this dataset is feasible for the final timeline: The force field can outperform the speed of DFT calculations by 1000s of times
+
+Computational Approach
+Baseline: Compute Gibbs Free Energy and Transition Barrier Energies with DFT and UMA
+Comparison: The energy diagrams of reaction coordinates of DFT and UMA
+Ambitious stretch goal: Geodesic transition states searches with explicit solvents
+Evaluation: Absolute Error between DFT and UMA, as well as experimental values
+Expected outputs: Table of Free Energies computed with DFT and UMA vs experimental values
+
+Final Route + Solution Plan
+Route steps: Installing the UMA package and Geodesic Model, designing scripts to use models with ASE, setup DFT calculations in ORCA on clusters, grab results
+Final solution: Completed Tables and Figures detailing computed energies from the UMA pretrained model, DFT and experimental values reported from NIST or other databases
+
+Risks and Backup Plan
+The main risk I see is DFT calculations taking too long if I were to run them at the wB97M-V/def2-TZVPD functional and basis set level. This may be computationally infeasible. My plan to bypass this is to run optimizations at the B3LYP/def2-SVP level of theory, and then use single point refinement energies at the wB97M-V/def2-TZVPD level of theory. This will make things much more achievable in such a short amount of time.
+
