@@ -1,0 +1,3 @@
+!B3LYP D3BJ DEF2-SVP NEB-TS FREQ PAL16
+%NEB NEB_END_XYZFILE "Product_optimized.xyz" END
+* XYZFILE 0 1 Reactant_optimized.xyz
